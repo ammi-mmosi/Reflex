@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#f5f3ee" />
+  <title>Reflex | Delivery coordination</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="#" aria-label="Reflex home"><span class="brand-mark">r</span><span>reflex</span></a>
+      <div class="workspace-switcher"><span class="shop-avatar">K</span><span><b>Kijani Electronics</b><small>Westlands branch</small></span><span class="chevron">⌄</span></div>
+      <nav class="main-nav" aria-label="Main navigation">
+        <button class="nav-item active" data-view="overview"><span class="nav-icon">◈</span>Overview</button>
+        <button class="nav-item" data-view="deliveries"><span class="nav-icon">▣</span>Deliveries <span class="nav-count" id="delivery-count">5</span></button>
+        <button class="nav-item" data-view="riders"><span class="nav-icon">♧</span>Riders</button>
+        <button class="nav-item" data-view="activity"><span class="nav-icon">◷</span>Activity</button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="sync-note"><span class="pulse"></span><span><b>Live sync on</b><small>Updated just now</small></span></div>
+        <button class="nav-item muted"><span class="nav-icon">⚙</span>Settings</button>
+        <div class="profile"><span class="profile-avatar">JM</span><span><b>Jane Mwangi</b><small>Dispatcher</small></span><span class="more">•••</span></div>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div class="mobile-brand"><span class="brand-mark">r</span>reflex</div>
+        <div class="role-switcher" aria-label="Demo role switcher"><span class="role-label">Viewing as</span><button class="role-button active" data-role="dispatcher">Dispatcher</button><button class="role-button" data-role="retailer">Retailer</button><button class="role-button" data-role="rider">Rider</button></div>
+        <div class="top-actions"><button class="icon-button" aria-label="Notifications">♧<i></i></button><button class="avatar-button">JM</button></div>
+      </header>
+
+      <section class="page" id="app-view"></section>
+    </main>
+  </div>
+  <div class="toast" id="toast" role="status"></div>
+  <div class="modal-backdrop" id="modal-backdrop" hidden><div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title"><button class="modal-close" id="modal-close" aria-label="Close">×</button><div id="modal-content"></div></div></div>
+  <script src="app.js"></script>
+</body>
+</html>

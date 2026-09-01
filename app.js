@@ -117,26 +117,40 @@ let currentBranch = localStorage.getItem("reflex-branch") || "westlands";
 let currentRole = "dispatcher";
 let deliveries = [];
 let riders = [];
+let backendAvailable = false;
 const appView = document.getElementById("app-view");
 const toast = document.getElementById("toast");
-function loadBranch(branchId) {
+async function loadBranch(branchId) {
   const profile = branchProfiles[branchId] || branchProfiles.westlands;
   currentBranch = branchProfiles[branchId] ? branchId : "westlands";
+  let serverState = null;
+  try {
+    const response = await fetch(`/api/state?branch=${currentBranch}`);
+    if (!response.ok) throw new Error("Backend unavailable");
+    serverState = await response.json();
+    backendAvailable = true;
+  } catch {
+    backendAvailable = false;
+  }
   deliveries =
+    serverState?.deliveries ||
     JSON.parse(
       localStorage.getItem(`reflex-${currentBranch}-deliveries`) ||
         (currentBranch === "westlands"
           ? localStorage.getItem("reflex-deliveries")
           : "null"),
-    ) || profile.seedDeliveries.map((delivery) => ({ ...delivery }));
+    ) ||
+    profile.seedDeliveries.map((delivery) => ({ ...delivery }));
   riders =
+    serverState?.riders ||
     JSON.parse(
       localStorage.getItem(`reflex-${currentBranch}-riders`) ||
-        (currentBranch === "westlands"
-          ? localStorage.getItem("reflex-riders")
-          : "null"),
-    ) || profile.seedRiders.map((rider) => ({ ...rider }));
+        (currentBranch === "westlands" ? localStorage.getItem("reflex-riders") : "null"),
+    ) ||
+    profile.seedRiders.map((rider) => ({ ...rider }));
   localStorage.setItem("reflex-branch", currentBranch);
+  if (backendAvailable && !serverState?.deliveries) save();
+  if (backendAvailable && !serverState?.riders) saveRiders();
 }
 function currentProfile() {
   return branchProfiles[currentBranch];
@@ -146,12 +160,24 @@ function save() {
     `reflex-${currentBranch}-deliveries`,
     JSON.stringify(deliveries),
   );
+  syncBackend();
 }
 function saveRiders() {
   localStorage.setItem(
     `reflex-${currentBranch}-riders`,
     JSON.stringify(riders),
   );
+  syncBackend();
+}
+function syncBackend() {
+  if (!backendAvailable) return;
+  fetch(`/api/state?branch=${currentBranch}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ deliveries, riders }),
+  }).catch(() => {
+    backendAvailable = false;
+  });
 }
 function updateWorkspaceChrome() {
   const profile = currentProfile();
@@ -569,10 +595,11 @@ function openWorkspace() {
   document.querySelectorAll(".workspace-choice").forEach(
     (button) =>
       (button.onclick = () => {
-        loadBranch(button.dataset.branch);
-        closeModal();
-        render();
-        showToast(`${currentProfile().branch} selected`);
+        loadBranch(button.dataset.branch).then(() => {
+          closeModal();
+          render();
+          showToast(`${currentProfile().branch} selected`);
+        });
       }),
   );
 }
@@ -807,8 +834,7 @@ document.getElementById("modal-close").onclick = closeModal;
 document.getElementById("modal-backdrop").onclick = (e) => {
   if (e.target.id === "modal-backdrop") closeModal();
 };
-loadBranch(currentBranch);
-render();
+loadBranch(currentBranch).then(render);
 setInterval(() => {
   document
     .querySelector(".sync-note small")

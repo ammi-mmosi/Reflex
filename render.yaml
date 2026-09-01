@@ -1,6 +1,0 @@
-services:
-  - type: web
-    name: reflex
-    runtime: node
-    buildCommand: npm install
-    startCommand: node server.js

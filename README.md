@@ -26,14 +26,18 @@ You can also open `index.html` directly, but a local server is recommended.
 
 ## Publish on Render
 
-This is a static site, so it can be deployed directly on Render:
+This app can be deployed as a Render Static Site:
 
 1. Push the repository to GitHub or GitLab.
-2. In Render, choose **New > Blueprint** and select the repository.
-3. Render will detect `render.yaml` and create the static site automatically.
+2. In Render, choose **New > Static Site**.
+3. Connect the repository `ammi-mmosi/Reflex`.
+4. Use `main` as the branch.
+5. Leave the build command blank.
+6. Set the publish directory to `.`.
+7. Click **Create Static Site**.
 
-The app has no build command. Its data is stored in each visitor's browser using
-`localStorage`, so it does not provide shared server-side data.
+The static deployment uses browser `localStorage` for demo data. The Node backend
+is not used by the Static Site deployment.
 
 ## Role Views
 

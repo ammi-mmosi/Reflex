@@ -113,13 +113,17 @@ const branchProfiles = {
     ],
   },
 };
+const savedSession = JSON.parse(localStorage.getItem("reflex-session") || "null");
 let currentBranch = localStorage.getItem("reflex-branch") || "westlands";
-let currentRole = "dispatcher";
+let currentRole = savedSession?.role || "dispatcher";
+let currentUserName = savedSession?.name || "Jane Mwangi";
 let deliveries = [];
 let riders = [];
 let backendAvailable = false;
 const appView = document.getElementById("app-view");
 const toast = document.getElementById("toast");
+const loginScreen = document.getElementById("login-screen");
+const appShell = document.getElementById("app-shell");
 async function loadBranch(branchId) {
   const profile = branchProfiles[branchId] || branchProfiles.westlands;
   currentBranch = branchProfiles[branchId] ? branchId : "westlands";
@@ -310,7 +314,7 @@ function renderOverview() {
   const open = deliveries.filter((d) => d.status === "Open");
   appView.innerHTML =
     header(
-      `Good morning, Jane · ${currentProfile().branch}`,
+      `Good morning, ${currentUserName} · ${currentProfile().branch}`,
       `Here is what is happening with your ${currentProfile().area} deliveries today.`,
       '<button class="primary-button" id="new-request">+ New delivery</button>',
     ) +
@@ -572,8 +576,16 @@ function applyRoleAccess() {
     const allowed = element.dataset.roles.split(",").includes(currentRole);
     element.hidden = !allowed;
   });
+  document.querySelector(".profile b").textContent = currentUserName;
   document.querySelector(".profile small").textContent =
     currentRole[0].toUpperCase() + currentRole.slice(1);
+}
+function syncRoleButtons() {
+  document.querySelectorAll(".role-button").forEach((button) => {
+    const active = button.dataset.role === currentRole;
+    button.classList.toggle("active", active);
+    button.setAttribute("aria-pressed", active ? "true" : "false");
+  });
 }
 function openInfoModal(title, content) {
   document.getElementById("modal-content").innerHTML =
@@ -617,18 +629,22 @@ function openNotifications() {
 }
 function openAccount() {
   openInfoModal(
-    "Jane Mwangi",
-    `<p>Dispatcher account</p>
+    currentUserName,
+    `<p>${currentRole[0].toUpperCase() + currentRole.slice(1)} account</p>
      <div class="form-actions">
        <button class="secondary-button" id="account-close">Close</button>
-       <button class="primary-button" id="account-toast">Account active</button>
+       <button class="primary-button" id="logout-button">Log out</button>
      </div>`,
   );
   document.getElementById("account-close").onclick = closeModal;
-  document.getElementById("account-toast").onclick = () => {
-    closeModal();
-    showToast("Your dispatcher account is active");
-  };
+  document.getElementById("logout-button").onclick = logout;
+}
+function logout() {
+  localStorage.removeItem("reflex-session");
+  closeModal();
+  appShell.hidden = true;
+  loginScreen.hidden = false;
+  document.querySelector('#login-form input[name="name"]').focus();
 }
 function openSettings() {
   openInfoModal(
@@ -819,6 +835,7 @@ document.getElementById("workspace-switcher").onclick = openWorkspace;
 document.getElementById("settings-button").onclick = openSettings;
 document.getElementById("notifications-button").onclick = openNotifications;
 document.getElementById("account-button").onclick = openAccount;
+document.getElementById("top-account-button").onclick = openAccount;
 document.querySelectorAll(".role-button").forEach(
   (button) =>
     (button.onclick = () => {
@@ -834,7 +851,26 @@ document.getElementById("modal-close").onclick = closeModal;
 document.getElementById("modal-backdrop").onclick = (e) => {
   if (e.target.id === "modal-backdrop") closeModal();
 };
-loadBranch(currentBranch).then(render);
+document.getElementById("login-form").onsubmit = (event) => {
+  event.preventDefault();
+  const data = Object.fromEntries(new FormData(event.target));
+  currentUserName = data.name.trim();
+  currentRole = data.role;
+  localStorage.setItem(
+    "reflex-session",
+    JSON.stringify({ name: currentUserName, role: currentRole }),
+  );
+  loginScreen.hidden = true;
+  appShell.hidden = false;
+  syncRoleButtons();
+  loadBranch(currentBranch).then(render);
+};
+if (savedSession) {
+  loginScreen.hidden = true;
+  appShell.hidden = false;
+  syncRoleButtons();
+  loadBranch(currentBranch).then(render);
+}
 setInterval(() => {
   document
     .querySelector(".sync-note small")

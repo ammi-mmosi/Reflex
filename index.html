@@ -14,7 +14,34 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <div class="app-shell">
+    <section class="login-screen" id="login-screen">
+      <div class="login-panel">
+        <a class="brand login-brand" href="#" aria-label="Reflex home"
+          ><span class="brand-mark" aria-hidden="true">r</span
+          ><span>reflex</span></a
+        >
+        <p class="eyebrow">Delivery coordination</p>
+        <h1>Welcome to Reflex</h1>
+        <p class="subheading">Choose your position to open your delivery desk.</p>
+        <form class="login-form" id="login-form">
+          <label class="form-field">
+            <span>Your name</span>
+            <input name="name" required autocomplete="name" placeholder="e.g. Jane Mwangi" />
+          </label>
+          <label class="form-field">
+            <span>Your position</span>
+            <select name="role" required>
+              <option value="">Choose a position</option>
+              <option value="dispatcher">Dispatcher</option>
+              <option value="retailer">Retailer</option>
+              <option value="rider">Rider</option>
+            </select>
+          </label>
+          <button class="primary-button" type="submit">Continue to Reflex</button>
+        </form>
+      </div>
+    </section>
+    <div class="app-shell" id="app-shell" hidden>
       <aside class="sidebar" aria-label="Workspace navigation">
         <a class="brand" id="brand-home" href="#" aria-label="Reflex home"
           ><span class="brand-mark" aria-hidden="true">r</span
@@ -125,7 +152,14 @@
             >
               ♧<i aria-hidden="true"></i>
             </button>
-            <button class="avatar-button" aria-label="Account menu">JM</button>
+            <button
+              class="avatar-button"
+              id="top-account-button"
+              type="button"
+              aria-label="Account menu"
+            >
+              JM
+            </button>
           </div>
         </header>
 

@@ -1,62 +1,151 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#eef0fb" />
-  <title>Reflex | Delivery coordination</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css" />
-</head>
-<body>
-  <div class="app-shell">
-    <aside class="sidebar" aria-label="Workspace navigation">
-      <a class="brand" id="brand-home" href="#" aria-label="Reflex home"><span class="brand-mark" aria-hidden="true">r</span><span>reflex</span></a>
-      <button class="workspace-switcher" id="workspace-switcher" data-roles="dispatcher" type="button" aria-label="Switch workspace">
-        <span class="shop-avatar" aria-hidden="true">K</span>
-        <span><b>Kijani Electronics</b><small>Westlands branch</small></span>
-        <span class="chevron" aria-hidden="true">⌄</span>
-      </button>
-      <nav class="main-nav" aria-label="Main navigation">
-        <button class="nav-item active" data-roles="dispatcher" data-view="overview" aria-pressed="true"><span class="nav-icon" aria-hidden="true">◈</span>Overview</button>
-        <button class="nav-item" data-roles="dispatcher" data-view="deliveries" aria-pressed="false"><span class="nav-icon" aria-hidden="true">▣</span>Deliveries <span class="nav-count" id="delivery-count">5</span></button>
-        <button class="nav-item" data-roles="dispatcher" data-view="riders" aria-pressed="false"><span class="nav-icon" aria-hidden="true">♧</span>Riders</button>
-        <button class="nav-item" data-roles="dispatcher" data-view="activity" aria-pressed="false"><span class="nav-icon" aria-hidden="true">◷</span>Activity</button>
-      </nav>
-      <div class="sidebar-bottom">
-        <div class="sync-note"><span class="pulse" aria-hidden="true"></span><span><b>Live sync on</b><small>Updated just now</small></span></div>
-        <button class="nav-item muted" id="settings-button" data-roles="dispatcher" type="button"><span class="nav-icon" aria-hidden="true">⚙</span>Settings</button>
-        <button class="profile" id="account-button" type="button"><span class="profile-avatar" aria-hidden="true">JM</span><span><b>Jane Mwangi</b><small>Dispatcher</small></span><span class="more" aria-hidden="true">•••</span></button>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#eef0fb" />
+    <title>Reflex | Delivery coordination</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="Workspace navigation">
+        <a class="brand" id="brand-home" href="#" aria-label="Reflex home"
+          ><span class="brand-mark" aria-hidden="true">r</span
+          ><span>reflex</span></a
+        >
+        <button
+          class="workspace-switcher"
+          id="workspace-switcher"
+          data-roles="dispatcher"
+          type="button"
+          aria-label="Switch workspace"
+        >
+          <span class="shop-avatar" aria-hidden="true">K</span>
+          <span><b>Kijani Electronics</b><small>Westlands branch</small></span>
+          <span class="chevron" aria-hidden="true">⌄</span>
+        </button>
+        <nav class="main-nav" aria-label="Main navigation">
+          <button
+            class="nav-item active"
+            data-roles="dispatcher"
+            data-view="overview"
+            aria-pressed="true"
+          >
+            <span class="nav-icon" aria-hidden="true">◈</span>Overview
+          </button>
+          <button
+            class="nav-item"
+            data-roles="dispatcher"
+            data-view="deliveries"
+            aria-pressed="false"
+          >
+            <span class="nav-icon" aria-hidden="true">▣</span>Deliveries
+            <span class="nav-count" id="delivery-count">5</span>
+          </button>
+          <button
+            class="nav-item"
+            data-roles="dispatcher"
+            data-view="riders"
+            aria-pressed="false"
+          >
+            <span class="nav-icon" aria-hidden="true">♧</span>Riders
+          </button>
+          <button
+            class="nav-item"
+            data-roles="dispatcher"
+            data-view="activity"
+            aria-pressed="false"
+          >
+            <span class="nav-icon" aria-hidden="true">◷</span>Activity
+          </button>
+        </nav>
+        <div class="sidebar-bottom">
+          <div class="sync-note">
+            <span class="pulse" aria-hidden="true"></span
+            ><span><b>Live sync on</b><small>Updated just now</small></span>
+          </div>
+          <button
+            class="nav-item muted"
+            id="settings-button"
+            data-roles="dispatcher"
+            type="button"
+          >
+            <span class="nav-icon" aria-hidden="true">⚙</span>Settings
+          </button>
+          <button class="profile" id="account-button" type="button">
+            <span class="profile-avatar" aria-hidden="true">JM</span
+            ><span><b>Jane Mwangi</b><small>Dispatcher</small></span
+            ><span class="more" aria-hidden="true">•••</span>
+          </button>
+        </div>
+      </aside>
+
+      <div class="main-content">
+        <header class="topbar">
+          <div class="mobile-brand">
+            <span class="brand-mark" aria-hidden="true">r</span>reflex
+          </div>
+          <div
+            class="role-switcher"
+            role="group"
+            aria-label="Demo role switcher"
+          >
+            <span class="role-label">Viewing as</span>
+            <button
+              class="role-button active"
+              data-role="dispatcher"
+              aria-pressed="true"
+            >
+              Dispatcher
+            </button>
+            <button
+              class="role-button"
+              data-role="retailer"
+              aria-pressed="false"
+            >
+              Retailer
+            </button>
+            <button class="role-button" data-role="rider" aria-pressed="false">
+              Rider
+            </button>
+          </div>
+          <div class="top-actions">
+            <button
+              class="icon-button"
+              id="notifications-button"
+              type="button"
+              aria-label="Notifications"
+            >
+              ♧<i aria-hidden="true"></i>
+            </button>
+            <button class="avatar-button" aria-label="Account menu">JM</button>
+          </div>
+        </header>
+
+        <main class="page" id="app-view" aria-live="polite"></main>
       </div>
-    </aside>
-
-    <div class="main-content">
-      <header class="topbar">
-        <div class="mobile-brand"><span class="brand-mark" aria-hidden="true">r</span>reflex</div>
-        <div class="role-switcher" role="group" aria-label="Demo role switcher">
-          <span class="role-label">Viewing as</span>
-          <button class="role-button active" data-role="dispatcher" aria-pressed="true">Dispatcher</button>
-          <button class="role-button" data-role="retailer" aria-pressed="false">Retailer</button>
-          <button class="role-button" data-role="rider" aria-pressed="false">Rider</button>
-        </div>
-        <div class="top-actions">
-          <button class="icon-button" id="notifications-button" type="button" aria-label="Notifications">♧<i aria-hidden="true"></i></button>
-          <button class="avatar-button" aria-label="Account menu">JM</button>
-        </div>
-      </header>
-
-      <main class="page" id="app-view" aria-live="polite"></main>
     </div>
-  </div>
-  <div class="toast" id="toast" role="status" aria-live="polite"></div>
-  <div class="modal-backdrop" id="modal-backdrop" hidden>
-    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-      <button class="modal-close" id="modal-close" aria-label="Close dialog">×</button>
-      <div id="modal-content"></div>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <div class="modal-backdrop" id="modal-backdrop" hidden>
+      <div
+        class="modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modal-title"
+      >
+        <button class="modal-close" id="modal-close" aria-label="Close dialog">
+          ×
+        </button>
+        <div id="modal-content"></div>
+      </div>
     </div>
-  </div>
-  <script src="app.js"></script>
-</body>
+    <script src="app.js"></script>
+  </body>
 </html>

@@ -1,0 +1,6 @@
+services:
+  - type: web
+    name: reflex
+    runtime: static
+    buildCommand: ""
+    staticPublishPath: .

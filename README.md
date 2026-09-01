@@ -24,6 +24,17 @@ Open [http://localhost:8001](http://localhost:8001) in your browser.
 
 You can also open `index.html` directly, but a local server is recommended.
 
+## Publish on Render
+
+This is a static site, so it can be deployed directly on Render:
+
+1. Push the repository to GitHub or GitLab.
+2. In Render, choose **New > Blueprint** and select the repository.
+3. Render will detect `render.yaml` and create the static site automatically.
+
+The app has no build command. Its data is stored in each visitor's browser using
+`localStorage`, so it does not provide shared server-side data.
+
 ## Role Views
 
 Use the role switcher in the top bar:
